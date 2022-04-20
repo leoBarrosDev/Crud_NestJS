@@ -1,0 +1,21 @@
+# docker run --name crud_nestjs_db -p 5432:5432 -e POSTGRES_ROOT_PASSWORD=postgres -d postgres:latest
+
+version: '3'
+
+networks:
+  crud_nestjs_db:
+    driver: bridge
+
+services:
+  db:
+    image: postgres
+    networks:
+      - crud_nestjs_db
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "crud_nestjs_db"
+    ports:
+      - "5432:5432"
+
+      
