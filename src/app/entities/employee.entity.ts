@@ -5,13 +5,13 @@ import { Situation, Office } from '../utils/enumTypes';
 @Entity({ name: 'employees' })
 export class EmployeeEntity {
   constructor() {
-    if (!this.id) {
-      this.id = uuidv4();
+    if (!this.employeeId) {
+      this.employeeId = uuidv4();
     }
   }
 
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  employeeId: string;
 
   @Column()
   name: string;
