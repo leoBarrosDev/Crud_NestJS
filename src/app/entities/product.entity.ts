@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   Entity,
@@ -17,18 +18,23 @@ export class ProductEntity {
   }
 
   @PrimaryGeneratedColumn('uuid')
+  @ApiProperty()
   id: string;
 
   @Column()
+  @ApiProperty()
   name: string;
 
   @Column()
+  @ApiProperty()
   category: string;
 
   @Column({ nullable: false, type: 'float' })
+  @ApiProperty()
   price: number;
 
   @Column()
+  @ApiProperty()
   employee_id: string;
 
   @ManyToOne(() => EmployeeEntity)
