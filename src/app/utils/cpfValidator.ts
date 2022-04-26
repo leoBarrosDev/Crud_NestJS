@@ -66,4 +66,3 @@ function isValid(cpf: string): boolean {
 }
 
 export default isValid;
-

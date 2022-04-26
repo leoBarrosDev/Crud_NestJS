@@ -1,7 +1,6 @@
 import { Office } from '../utils/enumTypes';
 import { IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Unique } from 'typeorm';
 
 export class CreateEmployeeDto {
   id: string;
