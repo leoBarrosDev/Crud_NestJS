@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { EmployeeEntity } from '../entities/employee.entity';
 import { CreateEmployeeDto } from './createEmployee.dto';
 import { UpdateEmployeeDto } from './updateEmployee.dto';
+import isValid from '../utils/cpfValidator';
 
 @Injectable()
 export class EmployeeService {
@@ -14,9 +15,19 @@ export class EmployeeService {
 
   async create(data: CreateEmployeeDto) {
     try {
-      return await this.employeeRepository.save(
-        this.employeeRepository.create(data),
-      );
+      if (isValid(data.cpf)) {
+        const consult = await this.employeeRepository.findOne({
+          where: { cpf: data.cpf },
+        });
+        if (consult) {
+          return 'CPF already exists';
+        }
+        return await this.employeeRepository.save(
+          this.employeeRepository.create(data),
+        );
+      }
+      return 'CPF invalid';
+      // throw new Error('Invalid CPF');
     } catch (error) {
       return error.message;
     }
