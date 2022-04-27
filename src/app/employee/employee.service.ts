@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { EmployeeEntity } from '../entities/employee.entity';
 import { CreateEmployeeDto } from './createEmployee.dto';
 import { UpdateEmployeeDto } from './updateEmployee.dto';
 import isValid from '../utils/cpfValidator';
+import formatCpf from '../utils/cpfFormat';
 
 @Injectable()
 export class EmployeeService {
@@ -22,19 +23,26 @@ export class EmployeeService {
         if (consult) {
           return 'CPF already exists';
         }
-        return await this.employeeRepository.save(
+        const newEmployee = await this.employeeRepository.save(
           this.employeeRepository.create(data),
         );
+        const cpfFormated = formatCpf(newEmployee.cpf);
+        return { ...newEmployee, cpf: cpfFormated };
       }
       return 'CPF invalid';
-      // throw new Error('Invalid CPF');
     } catch (error) {
       return error.message;
     }
   }
 
-  async findAll() {
-    return await this.employeeRepository.find();
+  async find(payload) {
+    if (payload.name) {
+      return await this.employeeRepository.find({
+        where: { name: Like(`%` + payload.name + `%`) },
+      });
+    } else {
+      return await this.employeeRepository.find(payload);
+    }
   }
 
   async update(employeeId: string, data: UpdateEmployeeDto) {

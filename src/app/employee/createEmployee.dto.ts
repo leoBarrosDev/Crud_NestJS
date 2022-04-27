@@ -1,6 +1,7 @@
 import { Office } from '../utils/enumTypes';
-import { IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class CreateEmployeeDto {
   id: string;
@@ -13,9 +14,10 @@ export class CreateEmployeeDto {
   @IsString()
   @Length(11, 11)
   cpf: string;
-  @IsString()
+  @IsDate()
   @ApiProperty()
-  birthday: string;
+  @Type(() => Date)
+  birthday: Date;
   @IsNotEmpty()
   @IsEnum(Office)
   @ApiProperty()

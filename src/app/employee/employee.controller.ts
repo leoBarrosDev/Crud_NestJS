@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BadRequestSwagger } from '../helpers/swagger/bad-request-swagger';
@@ -51,8 +52,8 @@ export class EmployeeController {
     description: 'Bad Request.',
     type: BadRequestSwagger,
   })
-  async findAll() {
-    return await this.employeeService.findAll();
+  async find(@Query() payload: string) {
+    return await this.employeeService.find(payload);
   }
 
   @Put(':employeeId')

@@ -25,7 +25,7 @@ export class EmployeeEntity {
 
   @Column()
   @ApiProperty()
-  birthday: string;
+  birthday: Date;
 
   @Column({ type: 'enum', enum: Situation, default: Situation.Active })
   @ApiProperty()
